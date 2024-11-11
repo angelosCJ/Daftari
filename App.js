@@ -1,46 +1,41 @@
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle,
-  Easing,
-} from "react-native-reanimated";
-import { View, Button } from "react-native";
+import Animated, {useSharedValue,withTiming,useAnimatedStyle,Easing,} from "react-native-reanimated";
+import { StyleSheet, Text, TextInput,View, Button ,TouchableOpacity,useWindowDimensions} from 'react-native';
+import {Authentication} from "./authentication";
+import {Main} from "./main";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
-export default function AnimatedStyleUpdateExample(props) {
-  const randomWidth = useSharedValue(10);
 
-  const config = {
-    duration: 500,
-    easing: Easing.bezier(0.5, 0.01, 0, 1),
-  };
+export default function App() {
 
-  const style = useAnimatedStyle(() => {
-    return {
-      width: withTiming(randomWidth.value, config),
-    };
-  });
+  async function lockOrientation() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+}
 
+lockOrientation();
+
+  const window = useWindowDimensions();
+  const Stack = createNativeStackNavigator();
+  
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
-      <Animated.View
-        style={[
-          { width: 100, height: 80, backgroundColor: "black", margin: 30 },
-          style,
-        ]}
-      />
-      <Button
-        title="toggle"
-        onPress={() => {
-          randomWidth.value = Math.random() * 350;
-        }}
-      />
-    </View>
+  
+    <NavigationContainer  >
+      <Stack.Navigator   screenOptions={{ headerShown: false }} initialRouteName="Authentication">
+        <Stack.Screen  name="Authentication" component={Authentication} />
+        <Stack.Screen name="Main" component={Main} />
+      </Stack.Navigator>
+    </NavigationContainer>
+   
   );
 }
+  
+const styles = StyleSheet.create({
+  container:{
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'black'
+  },
+});
+

@@ -1,4 +1,14 @@
 {
-  "name": "Daftari",
-  "slug": "Daftari"
+  "expo": {
+    "name": "Daftari",
+    "slug": "Daftari",
+    "extra": {
+      "eas": {
+        "projectId": "54869301-a351-4a99-afb5-76472bed42f5"
+      }
+    },
+    "android": {
+      "package": "com.maestrocj.Daftari"
+    }
+  }
 }
